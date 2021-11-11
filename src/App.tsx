@@ -15,7 +15,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>hello world</h1>
+      <h1 className='title'>Jose Antonio Cortes García: Validación telemática</h1>
       <Mesures />
     </div>
   )
