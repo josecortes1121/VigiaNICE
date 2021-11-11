@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { ref, onValue } from 'firebase/database';
 import { db } from '../../utils/Firebase'
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
@@ -32,19 +32,19 @@ export const Mesures = () => {
     setPage(0);
   };
 
-  const getMesures = () => {
+  const getMesures = useCallback(() => {
     const data = ref(db, '/Mesures');
     onValue(data, (snapshot) => {
       const data = snapshot.val();
       setMeasures(Object.values(data));
-      const last = measures[measures.length-1]
-      last && setLastInfo(last);
+      const last: IMeasures[] = Object.values(data)
+      last.length > 0 && setLastInfo(last[last.length-1]);
     })
-  }
+  }, []);
 
   useEffect(() => {
     getMesures();
-  }, [])
+  }, [getMesures])
 
   const columns = [
     { id: 'current', label: 'Corriente (A)', minWidth: 100},
