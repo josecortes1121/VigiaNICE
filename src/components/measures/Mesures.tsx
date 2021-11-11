@@ -10,15 +10,16 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
+import { IMeasures } from '../../measures.interface';
 import './measures.css'
 
 export const Mesures = () => {
-  const [measures, setMeasures] = useState([]);
+  const [measures, setMeasures] = useState<IMeasures[]>([]);
   const [page, setPage] = useState(0);
-  const [lastInfo, setLastInfo] = useState({
-    I:'',
-    P:'',
-    C:''
+  const [lastInfo, setLastInfo] = useState<IMeasures>({
+    I:'0',
+    P:'0',
+    C:'0'
   });
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -31,19 +32,19 @@ export const Mesures = () => {
     setPage(0);
   };
 
-  const getMesures = async () => {
+  const getMesures = () => {
     const data = ref(db, '/Mesures');
     onValue(data, (snapshot) => {
       const data = snapshot.val();
       setMeasures(Object.values(data));
-      setLastInfo(measures[measures.length-1]);
+      const last = measures[measures.length-1]
+      last && setLastInfo(last);
     })
   }
 
   useEffect(() => {
     getMesures();
-    console.log(measures);
-  }, [measures])
+  }, [])
 
   const columns = [
     { id: 'current', label: 'Corriente (A)', minWidth: 100},
