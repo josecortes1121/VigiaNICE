@@ -5,9 +5,20 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #0a1929;
+  background-image: linear-gradient(to top, #cfd9df56 0%, #e2ebf05b 100%), url('./utils/home.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.title {
+  color: rgb(243, 242, 242);
+  text-decoration: underline;
 }

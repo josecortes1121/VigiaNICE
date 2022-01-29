@@ -1,9 +1,9 @@
-table, th, td {
-    border: 1px solid black;
-    margin: 0 auto;
-}
-
-table {
-    width: 80%;
-    border-collapse: collapse;
+.last_info {
+    text-align: left;
+    color: antiquewhite;
+    font-size: 25px;
+    font-style: italic;
+    font-weight: 500;
+    margin-left: 3rem;
+    margin-top: 5rem;
 }
