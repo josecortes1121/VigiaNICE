@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { ref, onValue } from 'firebase/database';
-import { db } from '../../utils/Firebase'
+import { db, signFirebase } from '../../utils/Firebase'
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import Paper from '@mui/material/Paper';
@@ -16,9 +16,10 @@ import './measures.css'
 export const Mesures = () => {
   const [measures, setMeasures] = useState<IMeasures[]>([]);
   const [page, setPage] = useState(0);
+  const [error, setError] = useState(null);
   const [lastInfo, setLastInfo] = useState<IMeasures>({
     I:'0',
-    P:'0',
+    p:'0',
     C:'0'
   });
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -43,7 +44,13 @@ export const Mesures = () => {
   }, []);
 
   useEffect(() => {
-    getMesures();
+
+    signFirebase().then(res => {
+      if(res! !== '') return setError(res!);
+      else setError(null);
+      getMesures();
+
+    });
   }, [getMesures])
 
   const columns = [
@@ -75,11 +82,13 @@ export const Mesures = () => {
 
   const darkTheme = createTheme({ palette: { mode: 'dark' } });
   return (
-    <ThemeProvider theme={darkTheme}>
+    error
+    ? <h1>{error}</h1>
+    : <ThemeProvider theme={darkTheme}>
       <p className='last_info'>
         {
           lastInfo
-          && `Ultimo dato recibido: ${lastInfo.I} A, ${lastInfo.P} kW, ${lastInfo.C} kW-h`
+          && `Ultimo dato recibido: ${lastInfo.I} A, ${lastInfo.p} kW, ${lastInfo.C} kW-h`
         }
       </p>
       <Paper variant="outlined" sx={{ width: '95%', overflow: 'hidden', borderRadius: 2, mx: "auto" }}>
@@ -108,7 +117,7 @@ export const Mesures = () => {
                         {row.I + '  A'}
                       </StyledTableCell >
                       <StyledTableCell  align='center'>
-                        {row.P + '  kW'}
+                        {row.p + '  kW'}
                       </StyledTableCell >
                       <StyledTableCell  align='center'>
                         {row.C + '  kW-h'}
